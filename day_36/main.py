@@ -1,6 +1,6 @@
 from my_data import api_key, news_api_key, account_sid, auth_token, my_number
 import requests
-from twilio.rest import Client
+import twilio.rest
 
 STOCK_NAME = "TSLA"
 COMPANY_NAME = "Tesla Inc"
@@ -59,14 +59,14 @@ if abs(diff_percent) > 4:
     #to send a separate message with each article's title and description to your phone number. 
 
 #Create a new list of the first 3 article's headline and description using list comprehension.
-    formated_article = [f"{STOCK_NAME}: {up_down}{diff_percent}%\nHeadline: {article['title']}. \nBrief: {article['description']}" for atricle in three_articles]
+    formated_article = [f"{STOCK_NAME}: {up_down}{diff_percent}%\nHeadline: {articles['title']}.\nBrief: {articles['description']}" for atricles in three_articles]
 
 #Send each article as a separate message via Twilio.
-    client = Client(account_sid, auth_token)
+    client = twilio.rest.Client(account_sid, auth_token)
     for article in formated_article:
         message = client.messages.create(
             body=article,
-            from="+1516736982",
-            to=my_number,
+            from_="+1516736982",
+            to=my_number
         )
 
